@@ -3,6 +3,7 @@
     <div class="card">
       <div class="card-header">
         <h3>Products (Total:{{totalRecordsCount}})</h3>
+        <a class="btn btn-success" routerLink="products/add">Create New [+]</a>
       </div>
       <div class="card-body position-relative">
         <table class="table" *ngIf="products && products.length>0">
