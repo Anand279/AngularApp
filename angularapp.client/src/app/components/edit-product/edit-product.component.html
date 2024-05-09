@@ -15,7 +15,7 @@
           <label for="type" class="form-label">Type</label>
           <select name="type" class="form-control" [(ngModel)]="updateProductReq.type" #type="ngModel"
                   [ngClass]="{'invalid-data': type.invalid && form.submitted, 'valid-data': type.valid && form.submitted}" required>
-            <option *ngFor=" let p of productType" value="{{p.id}}">
+            <option *ngFor=" let p of productType" value="{{p.ProductId}}">
               {{p.title}}
             </option>
           </select>

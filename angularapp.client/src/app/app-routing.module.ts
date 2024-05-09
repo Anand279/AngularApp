@@ -7,13 +7,13 @@ import { ListingComponent } from './components/listing/listing.component';
 import { CreateinvoiceComponent } from './components/createinvoice/createinvoice.component';
 
 const routes: Routes = [
-  //{ path: '', component: ProductsComponent },
-  //{ path: 'products', component: ProductsComponent },
-  //{ path: 'products/add', component: AddProductComponent },
-  //{ path: 'products/edit/:id', component: EditProductComponent }
-  { component: ListingComponent, path: "" },
-  { component: CreateinvoiceComponent, path: "createinvoice" },
-  { component: CreateinvoiceComponent, path: "editinvoice/:invoiceno" },
+  { path: '', component: ProductsComponent },
+  { path: 'products', component: ProductsComponent },
+  { path: 'products/add', component: AddProductComponent },
+  { path: 'products/edit/:id', component: EditProductComponent }
+  //{ component: ListingComponent, path: "" },
+  //{ component: CreateinvoiceComponent, path: "createinvoice" },
+  //{ component: CreateinvoiceComponent, path: "editinvoice/:invoiceno" },
 ];
 
 @NgModule({
