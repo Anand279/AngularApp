@@ -12,8 +12,8 @@ export class ProductsService {
   getAllProducts(pageNo: number, pageSize: number): Observable<Product[]> {
     return this.http.get<Product[]>(this.baseApiUrl + "/api/Products/GetPaginatedProducts/" + pageNo + "/" + pageSize); 
   }
-  addProduct(newProduct: Product): Observable<Product> {
-    return this.http.post<Product>(this.baseApiUrl + '/api/Products/AddProduct', newProduct); 
+  addProduct(newProduct: any): Observable<Product> {
+    return this.http.post<any>(this.baseApiUrl + '/api/Products/AddProduct', newProduct); 
   }
   getProduct(id: number): Observable<any> {
     const url = `${this.baseApiUrl}/api/Products/GetProduct/${id}`;

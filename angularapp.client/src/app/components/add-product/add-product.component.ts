@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
@@ -11,58 +11,29 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms'
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })
-export class AddProductComponent implements OnInit {
-  newProduct: Product = {
-    id: 0,
-    name: '',
-    type: null,
-    color: '',
-    price: 0
-  };
+export class AddProductComponent{
   productType: ProductType[];
-  ngProductForm!: FormGroup;
   constructor(private fb: FormBuilder, private productService: ProductsService, private router: Router, private productTypeService: ProductTypeService) {
     this.productType = productTypeService.getAllProductType();
   }
-  ngOnInit() {
-    this.ngProductForm = this.fb.group({
-      ProductId: ['', [Validators.required]],
-      productName: [
-        '',
-        [
-          Validators.required
-        ],
-      ],
-      color: [
-        '',
-        Validators.compose([
-          Validators.required
-        ]),
-      ],
-      price: [
-        '',
-        Validators.compose([
-          Validators.required
-        ]),
-      ]
-    });
-  }
-  addProduct(formdata: any) {
-    const data:any = {
-      id: 0,
-      name: formdata.productName,
-      type: formdata.ProductId,
-      color: formdata.color,
-      price: formdata.price
-    };
-    this.productService.addProduct(data)
-      .subscribe({
-        next: (product) => {
-          this.router.navigate(['products']);
-        },
-        error: (response) => {
-          console.log(response);
-        }
-      });
+  ngProductForm = this.fb.group({
+    Id: this.fb.control(0, Validators.required),
+    Name: this.fb.control('', Validators.required),
+    Type: this.fb.control('', Validators.required),
+    Color: this.fb.control('', Validators.required),
+    Price: this.fb.control(0, Validators.required )
+  });
+  addProduct() {
+    if (this.ngProductForm.valid) {
+        this.productService.addProduct(this.ngProductForm.getRawValue())
+        .subscribe({
+          next: (product) => {
+            this.router.navigate(['products']);
+          },
+          error: (response) => {
+            console.log(response);
+          }
+        });
+    }
   }
 }

@@ -2,56 +2,42 @@
   <h1>Add new product</h1>
   <div class="row">
     <div class="col-6">
-      <form [formGroup]="ngProductForm">
+      <form [formGroup]="ngProductForm" (ngSubmit)="addProduct()">
         <div class="mb-3">
           <label for="name" class="form-label">Product Name</label>
-          <input type="text" class="form-control" placeholder="Enter Product Name" formControlName="productName" />
-          <span class="text-danger" *ngIf="ngProductForm.get('productName')?.touched && ngProductForm.get('productName')?.errors?.['required']">
+          <input type="text" class="form-control" placeholder="Enter Product Name" formControlName="Name" />
+          <span class="text-danger" *ngIf="ngProductForm.get('Name')?.touched && ngProductForm.get('Name')?.errors?.['required']">
             Please Enter Product Name!
           </span>
         </div>
-      
+
         <div class="mb-3">
           <label for="type" class="form-label">Product Type</label>
-          <select name="type" class="selectddl" [(ngModel)]="newProduct.type" #type="ngModel"
-                  [ngClass]="{'invalid-data': (ngProductForm.get('ProductId')?.touched || ngProductForm.get('ProductId')?.dirty) && !ngProductForm.get('ProductId')?.valid}" required>
-            <option value="null" disabled selected hidden>Select Type</option>
-            <option *ngFor=" let p of productType" value="{{p.ProductId}}">
-              {{p.title}}
+          <select formControlName="Type" class="form-control">
+            <option *ngFor="let item of productType" [value]="item.ProductId">
+              {{item.title}}
             </option>
           </select>
-          <!--<span class="text-danger" *ngIf="type.touched"
-                [hidden]="(type.valid  || form.pristine)">
-            Please Select Type
-          </span>-->
           <span class="text-danger"
-                *ngIf="ngProductForm.get('ProductId')?.touched && !ngProductForm.get('ProductId')?.valid">
+                *ngIf="ngProductForm.get('Type')?.touched && !ngProductForm.get('Type')?.valid">
             Please Select Product Type!
           </span>
         </div>
         <div class="mb-3">
           <label for="color" class="form-label">Color</label>
-          <input type="text" class="form-control" placeholder="Enter color" formControlName="color" />
-          <span class="text-danger" *ngIf="ngProductForm.get('color')?.touched && ngProductForm.get('color')?.errors?.['required']">
+          <input type="text" class="form-control" placeholder="Enter color" formControlName="Color" />
+          <span class="text-danger" *ngIf="ngProductForm.get('Color')?.touched && ngProductForm.get('Color')?.errors?.['required']">
             Please Enter color!
           </span>
-          <!--<span class="text-danger" *ngIf="color.touched"
-                [hidden]="(color.valid  || form.pristine)">
-            Color is required
-          </span>-->
         </div>
         <div class="mb-3">
           <label for="price" class="form-label">Price</label>
-          <input type="number" class="form-control" id="price" name="price" [(ngModel)]="newProduct.price" required #price="ngModel" />
-          <span class="text-danger" *ngIf="ngProductForm.get('price')?.touched && ngProductForm.get('price')?.errors?.['required']">
+          <input type="number" class="form-control"placeholder="Enter price" formControlName="Price" />
+          <span class="text-danger" *ngIf="ngProductForm.get('Price')?.touched && ngProductForm.get('Price')?.errors?.['required']">
             Please Enter price!
           </span>
-          <!--<span class="text-danger" *ngIf="price.touched"
-                [hidden]="(price.valid  || form.pristine)">
-            Price is required
-          </span>-->
         </div>
-        <button type="submit" class="btn btn-primary" (click)="addProduct(ngProductForm.value)" [disabled]="!ngProductForm.valid">Save</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </form>
     </div>
   </div>
