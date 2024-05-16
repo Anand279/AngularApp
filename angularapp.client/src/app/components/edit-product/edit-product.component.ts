@@ -4,6 +4,7 @@ import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductType } from '../../models/productType';
 import { ProductTypeService } from '../../services/product-type.service';
+import { Validators, FormBuilder } from '@angular/forms'
 
 @Component({
   selector: 'app-edit-product',
@@ -18,8 +19,15 @@ export class EditProductComponent implements OnInit {
     color: '',
     price: 0
   }
+  ngProductForm = this.fb.group({
+    Id: this.fb.control(0),
+    Name: this.fb.control('', Validators.required),
+    Type: this.fb.control('', Validators.required),
+    Color: this.fb.control('', Validators.required),
+    Price: this.fb.control(0, Validators.required)
+  });
   productType: ProductType[];
-  constructor(private productService: ProductsService, private router: Router, private route: ActivatedRoute, private productTypeService: ProductTypeService) {
+  constructor(private fb: FormBuilder, private productService: ProductsService, private router: Router, private route: ActivatedRoute, private productTypeService: ProductTypeService) {
     this.productType = productTypeService.getAllProductType();
   }
   ngOnInit(): void{
@@ -30,15 +38,19 @@ export class EditProductComponent implements OnInit {
     }
   }
   getProduct(id: number): void {
-    this.productService.getProduct(id)
-      .subscribe({
-        next: (response) => {
-          this.updateProductReq = response;
-        }
-      });
+    this.productService.getProduct(id).subscribe((res: any) => {
+      let productdata: any;
+      productdata = res;
+      if (productdata != null) {
+        this.ngProductForm.setValue({
+          Id: productdata.id, Name: productdata.name,
+          Color: productdata.color, Price: productdata.price, Type: productdata.type
+        })
+      }
+    });
   }
   updateProduct() {
-    this.productService.updateProduct(this.updateProductReq.id, this.updateProductReq)
+    this.productService.updateProduct(this.ngProductForm.get("Id")?.getRawValue(), this.ngProductForm.getRawValue())
       .subscribe({
         next: (response) => {
           this.router.navigate(['products']);

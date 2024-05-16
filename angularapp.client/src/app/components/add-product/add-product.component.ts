@@ -4,7 +4,7 @@ import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
 import { ProductTypeService } from '../../services/product-type.service';
 import { ProductType } from '../../models/productType';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms'
+import { Validators, FormBuilder } from '@angular/forms'
 
 @Component({
   selector: 'app-add-product',

@@ -37,7 +37,7 @@
             Please Enter price!
           </span>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!ngProductForm.valid">Save</button>
       </form>
     </div>
   </div>

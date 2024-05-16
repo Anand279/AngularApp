@@ -19,8 +19,8 @@ export class ProductsService {
     const url = `${this.baseApiUrl}/api/Products/GetProduct/${id}`;
     return this.http.get<any>(url).pipe(catchError(error => { console.error('Error getting product by ID:', error); throw error; }));
   }
-  updateProduct(id: number, updateProductRequest: Product): Observable<Product> {
-    return this.http.put<Product>(this.baseApiUrl + "/api/Products/UpdateProduct/" + id, updateProductRequest);
+  updateProduct(id: number, updateProductRequest: any): Observable<Product> {
+    return this.http.put<any>(this.baseApiUrl + "/api/Products/UpdateProduct/" + id, updateProductRequest);
   }
   deleteProduct(id: number): Observable<Product> {
     return this.http.delete<Product>(this.baseApiUrl + "/api/Products/DeleteProduct/" + id);
