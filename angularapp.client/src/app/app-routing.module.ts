@@ -9,11 +9,12 @@ import { CreateinvoiceComponent } from './components/createinvoice/createinvoice
 const routes: Routes = [
   { path: '', component: ProductsComponent },
   { path: 'products', component: ProductsComponent },
+  { path: 'products/products/add', component: AddProductComponent },
   { path: 'products/add', component: AddProductComponent },
-  { path: 'products/edit/:id', component: EditProductComponent }
-  //{ component: ListingComponent, path: "" },
-  //{ component: CreateinvoiceComponent, path: "createinvoice" },
-  //{ component: CreateinvoiceComponent, path: "editinvoice/:invoiceno" },
+  { path: 'products/edit/:id', component: EditProductComponent },
+  { component: ListingComponent, path: "" },
+  { component: CreateinvoiceComponent, path: "createinvoice" },
+  { component: CreateinvoiceComponent, path: "editinvoice/:invoiceno" },
 ];
 
 @NgModule({

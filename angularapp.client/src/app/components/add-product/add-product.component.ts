@@ -1,10 +1,10 @@
 import { Component} from '@angular/core';
-import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
 import { ProductTypeService } from '../../services/product-type.service';
 import { ProductType } from '../../models/productType';
 import { Validators, FormBuilder } from '@angular/forms'
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-product',
@@ -13,7 +13,8 @@ import { Validators, FormBuilder } from '@angular/forms'
 })
 export class AddProductComponent{
   productType: ProductType[];
-  constructor(private fb: FormBuilder, private productService: ProductsService, private router: Router, private productTypeService: ProductTypeService) {
+  constructor(private fb: FormBuilder, private productService: ProductsService, private router: Router,
+            private alert: ToastrService, private productTypeService: ProductTypeService) {
     this.productType = productTypeService.getAllProductType();
   }
   ngProductForm = this.fb.group({
@@ -28,9 +29,11 @@ export class AddProductComponent{
         this.productService.addProduct(this.ngProductForm.getRawValue())
         .subscribe({
           next: (product) => {
-            this.router.navigate(['products']);
+            this.alert.success('Created Successfully.', 'Product :' + product.name);
+            this.router.navigate(['/']);
           },
           error: (response) => {
+            this.alert.error('Failed to save.', 'Product');
             console.log(response);
           }
         });

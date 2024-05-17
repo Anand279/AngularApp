@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductType } from '../../models/productType';
 import { ProductTypeService } from '../../services/product-type.service';
 import { Validators, FormBuilder } from '@angular/forms'
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-product',
@@ -12,13 +12,6 @@ import { Validators, FormBuilder } from '@angular/forms'
   styleUrl: './edit-product.component.css'
 })
 export class EditProductComponent implements OnInit {
-  updateProductReq: Product = {
-    id: 0,
-    name: '',
-    type: '',
-    color: '',
-    price: 0
-  }
   ngProductForm = this.fb.group({
     Id: this.fb.control(0),
     Name: this.fb.control('', Validators.required),
@@ -27,7 +20,8 @@ export class EditProductComponent implements OnInit {
     Price: this.fb.control(0, Validators.required)
   });
   productType: ProductType[];
-  constructor(private fb: FormBuilder, private productService: ProductsService, private router: Router, private route: ActivatedRoute, private productTypeService: ProductTypeService) {
+  constructor(private fb: FormBuilder, private productService: ProductsService, private router: Router, private route: ActivatedRoute,
+              private alert: ToastrService, private productTypeService: ProductTypeService) {
     this.productType = productTypeService.getAllProductType();
   }
   ngOnInit(): void{
@@ -52,8 +46,9 @@ export class EditProductComponent implements OnInit {
   updateProduct() {
     this.productService.updateProduct(this.ngProductForm.get("Id")?.getRawValue(), this.ngProductForm.getRawValue())
       .subscribe({
-        next: (response) => {
-          this.router.navigate(['products']);
+        next: (product) => {
+          this.alert.success('Updated Successfully.', 'Product :' + product.name);
+          this.router.navigate(['/']);
         },
         error: (err) => {
           console.log(err);
