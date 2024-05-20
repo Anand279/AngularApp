@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
 import { PaginationService } from '../../services/pagination.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -20,7 +20,8 @@ export class ProductsComponent implements OnInit {
   recordsPerPage: any = 5;
   totalRecords: any;
   totalRecordsCount: any;
-  constructor(public productService: ProductsService, public paginationService: PaginationService, private router: Router) { }
+  constructor(public productService: ProductsService, public paginationService: PaginationService, private router: Router,
+    private alert: ToastrService) { }
   ngOnInit(): void {
     this.pageNumber[0] = true;
     this.paginationService.temppage = 0;
@@ -33,21 +34,22 @@ export class ProductsComponent implements OnInit {
       this.getAllProductsCount();
     });
   }
-
-  deleteProduct(id: number) {
-    this.productService.deleteProduct(id)
-      .subscribe({
-        next: (response) => {
-          let currentUrl = this.router.url;
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigate([currentUrl]);
-              this.getAllProducts();
-            })
-        }
-      })
+  deleteProduct(id: number, name: string) {
+    if (confirm('Do you want to remove this Product: ' + name)) {
+      this.productService.deleteProduct(id)
+        .subscribe({
+          next: (response) => {
+            let currentUrl = this.router.url;
+            this.router.navigateByUrl('/', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate([currentUrl]);
+                this.alert.success('Removed Successfully: ' + name, 'Delete Product')
+                this.getAllProducts();
+              })
+          }
+        });
+    }
   }
-
 
   //Method For Pagination  
   totalNoOfPages() {
